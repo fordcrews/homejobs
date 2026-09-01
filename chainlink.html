@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cyclone / chain-link fence</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Cyclone / chain-link fence</h1>
+    <p>Posts, top rail, mesh rolls, fittings, gates — HD, Lowe’s, or a fence shop.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="fence.html">Wood fence</a>
+      <a class="active" href="chainlink.html">Cyclone fence</a>
+      <a href="flooring.html">Floors</a>
+      <a href="paint.html">Paint</a>
+    </nav>
+  </header>
+  <div class="wrap">
+    <div class="grid no-print">
+      <fieldset>
+        <legend>The fence</legend>
+        <div class="row2">
+          <div>
+            <label for="length">Total run (linear feet)</label>
+            <input id="length" type="number" min="1" step="1" value="150">
+          </div>
+          <div>
+            <label for="height">Fabric height (ft)</label>
+            <select id="height">
+              <option value="4" selected>4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+          <div>
+            <label for="gauge">Mesh</label>
+            <select id="gauge">
+              <option value="11.5" selected>11.5 ga residential galvanized</option>
+              <option value="9">9 ga heavier</option>
+              <option value="vinyl">Vinyl-coated 11.5 ga</option>
+            </select>
+          </div>
+          <div>
+            <label for="spacing">Line post spacing (ft)</label>
+            <select id="spacing">
+              <option value="8">8</option>
+              <option value="10" selected>10</option>
+            </select>
+          </div>
+          <div>
+            <label for="corners">Corners</label>
+            <input id="corners" type="number" min="0" value="3">
+          </div>
+          <div>
+            <label for="ends">Ends (not counting gates)</label>
+            <input id="ends" type="number" min="0" value="1">
+          </div>
+          <div>
+            <label for="gates">Walk gates</label>
+            <input id="gates" type="number" min="0" value="1">
+          </div>
+          <div>
+            <label for="gatew">Walk gate width (ft)</label>
+            <select id="gatew">
+              <option value="3">3</option>
+              <option value="4" selected>4</option>
+            </select>
+          </div>
+          <div>
+            <label for="dgates">Drive gates (pairs)</label>
+            <input id="dgates" type="number" min="0" value="0">
+          </div>
+          <div>
+            <label for="dgatew">Drive opening (ft)</label>
+            <select id="dgatew">
+              <option value="10">10</option>
+              <option value="12" selected>12</option>
+              <option value="14">14</option>
+            </select>
+          </div>
+        </div>
+        <p class="hint">Residential: line posts 1-5/8″ every 10 ft, terminals 2-3/8″, top rail 1-3/8″. Mesh in 50 ft rolls. Tension bar + bands at every terminal. 2 bags concrete per line post, 3 per terminal.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Use</legend>
+        <p class="hint" style="color:var(--ink)">Fence shops often beat HD/Lowe’s on fabric and terminals. Copy the list and text it to them.</p>
+        <div class="actions">
+          <button type="button" onclick="window.print()">Print / PDF</button>
+          <button type="button" class="ghost" id="copyBtn">Copy shop list</button>
+          <button type="button" class="ghost" id="resetPrices">Clear saved prices</button>
+        </div>
+      </fieldset>
+    </div>
+    <div class="totals" id="totals"></div>
+    <div style="overflow-x:auto;">
+      <table id="list">
+        <thead>
+          <tr>
+            <th>Item</th><th class="num">Qty</th><th>Unit</th>
+            <th class="num col-hd">HD $</th><th class="num col-lw">Lowe’s $</th><th class="num col-ml">Shop $</th>
+            <th class="num">HD</th><th class="num">Lowe’s</th><th class="num">Shop</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3>Notes for the fence shop</h3>
+    <div class="notes" id="notes"></div>
+    <footer>Hobby takeoff. Local code may want bottom tension wire or privacy slats — add those if you need them.</footer>
+  </div>
+  <script src="common.js"></script>
+  <script>
+    const KEY = 'chainlinkPrices.v1';
+    function takeoff() {
+      const length = +HJ.$('length').value;
+      const height = +HJ.$('height').value;
+      const spacing = +HJ.$('spacing').value;
+      const corners = +HJ.$('corners').value;
+      const ends = +HJ.$('ends').value;
+      const gates = +HJ.$('gates').value;
+      const gatew = +HJ.$('gatew').value;
+      const dgates = +HJ.$('dgates').value;
+      const dgatew = +HJ.$('dgatew').value;
+      const gauge = HJ.$('gauge').value;
+      const gateOpen = gates * gatew + dgates * dgatew;
+      const run = Math.max(0, length - gateOpen);
+      const terminals = corners + ends + gates * 2 + dgates * 2;
+      const linePosts = Math.max(0, HJ.ceil(run / spacing) - 1);
+      const meshLf = HJ.ceil(run);
+      const rolls = HJ.ceil(meshLf / 50);
+      const topRail = HJ.ceil(run / 10.5); // 10.5 ft sticks typical
+      const ties = HJ.ceil(run * (height >= 6 ? 1.5 : 1.2));
+      const meshLabel = height + ' ft chain-link fabric, 50 ft roll (' +
+        (gauge === 'vinyl' ? 'vinyl-coated 11.5 ga' : gauge + ' ga galvanized') + ')';
+      const items = [
+        { id: 'term', name: (height + 2) + ' ft terminal post 2-3/8″ OD (end/corner/gate)', qty: terminals, unit: 'ea', note: corners + ' corners, ' + ends + ' ends, ' + (gates * 2 + dgates * 2) + ' gate' },
+        { id: 'line', name: (height + 2) + ' ft line post 1-5/8″ OD', qty: linePosts, unit: 'ea', note: spacing + ' ft centers' },
+        { id: 'rail', name: 'Top rail 1-3/8″ × 10.5 ft', qty: topRail, unit: 'ea', note: 'Sleeve together along the run' },
+        { id: 'mesh', name: meshLabel, qty: rolls, unit: 'roll', note: meshLf + ' lf needed' },
+        { id: 'bar', name: 'Tension bar ' + height + ' ft', qty: terminals, unit: 'ea', note: 'One per terminal' },
+        { id: 'band', name: 'Tension band', qty: terminals * Math.max(3, height), unit: 'ea', note: '~1 per foot of height, each terminal' },
+        { id: 'brace', name: 'Brace band', qty: terminals * 2, unit: 'ea', note: '' },
+        { id: 'capl', name: 'Loop cap (line post)', qty: linePosts, unit: 'ea', note: '' },
+        { id: 'capt', name: 'Dome cap (terminal)', qty: terminals, unit: 'ea', note: '' },
+        { id: 'rend', name: 'Rail end / offset rail end', qty: terminals, unit: 'ea', note: '' },
+        { id: 'tie', name: 'Aluminum tie wire (bag ~100)', qty: HJ.ceil(ties / 100), unit: 'bag', note: ties + ' ties estimated' },
+        { id: 'wire', name: 'Bottom tension wire (lf)', qty: HJ.ceil(run), unit: 'lf', note: 'Optional but recommended' },
+        { id: 'conc', name: 'Concrete mix 50–80 lb', qty: linePosts * 2 + terminals * 3, unit: 'bag', note: '2 line / 3 terminal' },
+        { id: 'wgate', name: height + ' ft × ' + gatew + ' ft walk gate (framed)', qty: gates, unit: 'ea', note: 'Includes frame; hinges/latch often in kit' },
+        { id: 'dgate', name: height + ' ft × ' + dgatew + ' ft double drive gate', qty: dgates, unit: 'ea', note: 'Pair' }
+      ].filter(function (it) { return it.qty > 0; });
+      const notes = 'Residential cyclone. ' + length + ' lf total, ' + height + ' ft fabric, line posts ' + spacing + ' ft OC.\nMesh run (less gates): ' + run + ' lf. Quote mill/fence-shop equivalents if SKUs differ.';
+      return { items, notes };
+    }
+    function rebuild() {
+      const t = takeoff();
+      HJ.renderTable(t.items, KEY, t.notes);
+    }
+    window.rebuild = rebuild;
+    ['length','height','gauge','spacing','corners','ends','gates','gatew','dgates','dgatew'].forEach(function (id) {
+      HJ.$(id).addEventListener('input', rebuild);
+      HJ.$(id).addEventListener('change', rebuild);
+    });
+    HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('CYCLONE FENCE — shop quote', t.items, t.notes); });
+    HJ.wireReset('resetPrices', KEY, rebuild);
+    rebuild();
+  </script>
+</body>
+</html>

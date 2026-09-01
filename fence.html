@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wood fence list</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Wood fence</h1>
+    <p>One takeoff → Home Depot, Lowe’s, lumber mill.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a class="active" href="fence.html">Wood fence</a>
+      <a href="chainlink.html">Cyclone fence</a>
+      <a href="flooring.html">Floors</a>
+      <a href="paint.html">Paint</a>
+    </nav>
+  </header>
+  <div class="wrap">
+    <div class="grid no-print">
+      <fieldset>
+        <legend>The fence</legend>
+        <div class="row2">
+          <div>
+            <label for="length">Total run (linear feet)</label>
+            <input id="length" type="number" min="1" step="0.5" value="120">
+          </div>
+          <div>
+            <label for="height">Height (ft)</label>
+            <select id="height">
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6" selected>6</option>
+              <option value="8">8</option>
+            </select>
+          </div>
+          <div>
+            <label for="style">Style</label>
+            <select id="style">
+              <option value="privacy" selected>Privacy (1×6 boards, butted)</option>
+              <option value="boardboard">Board-on-board (overlap)</option>
+              <option value="picket">Picket (3½″ pickets, 2″ gap)</option>
+            </select>
+          </div>
+          <div>
+            <label for="spacing">Post spacing (ft, on center)</label>
+            <select id="spacing">
+              <option value="6">6</option>
+              <option value="8" selected>8</option>
+            </select>
+          </div>
+          <div>
+            <label for="corners">Corners (90°)</label>
+            <input id="corners" type="number" min="0" step="1" value="3">
+          </div>
+          <div>
+            <label for="ends">End posts (besides gate posts)</label>
+            <input id="ends" type="number" min="0" step="1" value="1">
+          </div>
+          <div>
+            <label for="gates">Walk gates</label>
+            <input id="gates" type="number" min="0" step="1" value="1">
+          </div>
+          <div>
+            <label for="gatew">Walk gate width (ft)</label>
+            <input id="gatew" type="number" min="3" step="0.5" value="4">
+          </div>
+          <div>
+            <label for="dgates">Drive gates (pair = 1)</label>
+            <input id="dgates" type="number" min="0" step="1" value="0">
+          </div>
+          <div>
+            <label for="dgatew">Drive opening (ft)</label>
+            <input id="dgatew" type="number" min="8" step="1" value="12">
+          </div>
+        </div>
+        <p class="hint">Line posts 4×4. Corners, ends, and gate posts 6×6. Three 2×4 rails. 2 ft in the ground. 10% waste on boards.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Use</legend>
+        <p class="hint" style="color:var(--ink)">Type HD / Lowe’s prices from the shelf. Leave mill blank, print, hand it to the yard.</p>
+        <div class="actions">
+          <button type="button" onclick="window.print()">Print / PDF</button>
+          <button type="button" class="ghost" id="copyBtn">Copy shop list</button>
+          <button type="button" class="ghost" id="resetPrices">Clear saved prices</button>
+        </div>
+      </fieldset>
+    </div>
+    <div class="totals" id="totals"></div>
+    <div style="overflow-x:auto;">
+      <table id="list">
+        <thead>
+          <tr>
+            <th>Item</th><th class="num">Qty</th><th>Unit</th>
+            <th class="num col-hd">HD $</th><th class="num col-lw">Lowe’s $</th><th class="num col-ml">Mill $</th>
+            <th class="num">HD</th><th class="num">Lowe’s</th><th class="num">Mill</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3>Notes for the mill</h3>
+    <div class="notes" id="notes"></div>
+    <footer>Hobby takeoff. Treated ground-contact posts. Call 811 before you dig.</footer>
+  </div>
+  <script src="common.js"></script>
+  <script>
+    const KEY = 'fencePrices.v1';
+    function takeoff() {
+      const length = HJ.$('length').value * 1;
+      const height = HJ.$('height').value * 1;
+      const spacing = HJ.$('spacing').value * 1;
+      const corners = HJ.$('corners').value * 1;
+      const ends = HJ.$('ends').value * 1;
+      const gates = HJ.$('gates').value * 1;
+      const gatew = HJ.$('gatew').value * 1;
+      const dgates = HJ.$('dgates').value * 1;
+      const dgatew = HJ.$('dgatew').value * 1;
+      const style = HJ.$('style').value;
+      const gateOpen = gates * gatew + dgates * dgatew;
+      const fenceRun = Math.max(0, length - gateOpen);
+      const linePosts = Math.max(0, HJ.ceil(fenceRun / spacing) - 1);
+      const gatePosts = gates * 2 + dgates * 2;
+      const post6 = corners + ends + gatePosts;
+      const post4 = linePosts;
+      const sections = Math.max(0, HJ.ceil(fenceRun / spacing));
+      const rails = sections * 3 + (gates + dgates * 2) * 3;
+      const waste = 1.10;
+      const cover = style === 'boardboard' ? 4.5 : 5.5;
+      const boards = HJ.ceil((fenceRun + gateOpen) * 12 / cover * waste);
+      const boardName = style === 'picket'
+        ? height + ' ft 1×4 pickets'
+        : height + ' ft 1×6 treated' + (style === 'boardboard' ? ' (board-on-board)' : ' dog-ear');
+      const items = [
+        { id: 'p4', name: (height + 2) + ' ft 4×4 treated post (ground contact) — line', qty: post4, unit: 'ea', note: 'Line posts' },
+        { id: 'p6', name: (height + 2) + ' ft 6×6 treated post — corner/end/gate', qty: post6, unit: 'ea', note: corners + ' corners, ' + ends + ' ends, ' + gatePosts + ' gate' },
+        { id: 'rail', name: spacing + ' ft 2×4 treated rail', qty: rails, unit: 'ea', note: '3 per section + gates' },
+        { id: 'board', name: boardName, qty: boards, unit: 'ea', note: '~10% waste + gates' },
+        { id: 'conc', name: 'Concrete mix 50–80 lb bag', qty: post4 * 2 + post6 * 3, unit: 'bag', note: '2 per 4×4, 3 per 6×6' },
+        { id: 'cap', name: 'Post cap', qty: post4 + post6, unit: 'ea', note: 'Optional' },
+        { id: 'hinge', name: 'Heavy T-hinge pair', qty: gates + dgates * 2, unit: 'pair', note: '' },
+        { id: 'latch', name: 'Gate latch', qty: gates + dgates, unit: 'ea', note: '' },
+        { id: 'drop', name: 'Cane bolt / drop rod', qty: dgates, unit: 'ea', note: 'Drive gate' },
+        { id: 'screws', name: 'Exterior screws #8 × 2″ (1 lb box ~150)', qty: HJ.ceil(boards * 6 / 150), unit: 'box', note: '~6 per board' }
+      ].filter(function (it) { return it.qty > 0; });
+      const notes = 'Treated ground-contact posts. Run ' + length + ' lf, ' + height + ' ft high, posts ' + spacing + ' ft OC.\nFence less openings: ' + fenceRun.toFixed(1) + ' lf. Gate openings: ' + gateOpen + ' lf.';
+      return { items, notes };
+    }
+    function rebuild() {
+      const t = takeoff();
+      HJ.renderTable(t.items, KEY, t.notes);
+    }
+    window.rebuild = rebuild;
+    ['length','height','style','spacing','corners','ends','gates','gatew','dgates','dgatew'].forEach(function (id) {
+      HJ.$(id).addEventListener('input', rebuild);
+      HJ.$(id).addEventListener('change', rebuild);
+    });
+    HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('WOOD FENCE — mill quote', t.items, t.notes); });
+    HJ.wireReset('resetPrices', KEY, rebuild);
+    rebuild();
+  </script>
+</body>
+</html>

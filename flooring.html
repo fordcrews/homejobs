@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Floors — tile, hardwood, laminate, carpet</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Floors</h1>
+    <p>Tile, hardwood, laminate, vinyl/LVP, carpet. Boxes and extras for HD, Lowe’s, or a floor shop.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="fence.html">Wood fence</a>
+      <a href="chainlink.html">Cyclone fence</a>
+      <a class="active" href="flooring.html">Floors</a>
+      <a href="paint.html">Paint</a>
+    </nav>
+  </header>
+  <div class="wrap">
+    <div class="grid no-print">
+      <fieldset>
+        <legend>Rooms</legend>
+        <div id="rooms"></div>
+        <div class="actions">
+          <button type="button" class="ghost" id="addRoom">Add room</button>
+        </div>
+        <div class="row2">
+          <div>
+            <label for="kind">Floor type</label>
+            <select id="kind">
+              <option value="lvp">Vinyl / LVP (click)</option>
+              <option value="laminate">Laminate</option>
+              <option value="hardwood">Hardwood (solid / eng.)</option>
+              <option value="tile">Ceramic / porcelain tile</option>
+              <option value="carpet">Carpet + pad</option>
+            </select>
+          </div>
+          <div>
+            <label for="waste">Waste %</label>
+            <input id="waste" type="number" min="5" max="20" value="10">
+          </div>
+          <div>
+            <label for="boxsf">Sq ft per carton / box</label>
+            <input id="boxsf" type="number" min="1" step="0.1" value="20">
+          </div>
+          <div>
+            <label for="tilesf">Tile size (if tile)</label>
+            <select id="tilesf">
+              <option value="1">12×12 (1 sf each)</option>
+              <option value="1.78">16×16</option>
+              <option value="2.25" selected>18×18</option>
+              <option value="4">12×24</option>
+              <option value="2.25b">6×24</option>
+            </select>
+          </div>
+        </div>
+        <p class="hint">Carpet uses 12 ft roll width (linear feet of roll, not boxes). Add extra waste on diagonals or busy tile patterns (12–15%).</p>
+      </fieldset>
+      <fieldset>
+        <legend>Use</legend>
+        <p class="hint" style="color:var(--ink)">Floor shops will quote pad, transitions, and quarter-round. Leave those mill prices blank and let them fill.</p>
+        <div class="actions">
+          <button type="button" onclick="window.print()">Print / PDF</button>
+          <button type="button" class="ghost" id="copyBtn">Copy shop list</button>
+          <button type="button" class="ghost" id="resetPrices">Clear saved prices</button>
+        </div>
+      </fieldset>
+    </div>
+    <div class="totals" id="totals"></div>
+    <div style="overflow-x:auto;">
+      <table id="list">
+        <thead>
+          <tr>
+            <th>Item</th><th class="num">Qty</th><th>Unit</th>
+            <th class="num col-hd">HD $</th><th class="num col-lw">Lowe’s $</th><th class="num col-ml">Shop $</th>
+            <th class="num">HD</th><th class="num">Lowe’s</th><th class="num">Shop</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3>Notes for the floor shop</h3>
+    <div class="notes" id="notes"></div>
+    <footer>Hobby takeoff. Confirm actual carton coverage on the box you buy — it varies by brand.</footer>
+  </div>
+  <script src="common.js"></script>
+  <script>
+    const KEY = 'floorPrices.v1';
+    let rooms = [
+      { name: 'Living', l: 16, w: 14 },
+      { name: 'Hall', l: 12, w: 4 }
+    ];
+
+    function roomSf() {
+      return rooms.reduce(function (s, r) { return s + (r.l * r.w); }, 0);
+    }
+
+    function drawRooms() {
+      const box = HJ.$('rooms');
+      box.innerHTML = '';
+      rooms.forEach(function (r, i) {
+        const d = document.createElement('div');
+        d.className = 'room';
+        d.innerHTML =
+          '<h3>' + (r.name || ('Room ' + (i + 1))) + ' <button type="button" class="ghost" data-del="' + i + '" style="padding:.15rem .45rem;font-size:.8rem;">remove</button></h3>' +
+          '<div class="row3">' +
+          '<div><label>Name</label><input data-f="name" data-i="' + i + '" value="' + (r.name || '') + '"></div>' +
+          '<div><label>Length ft</label><input type="number" step="0.1" data-f="l" data-i="' + i + '" value="' + r.l + '"></div>' +
+          '<div><label>Width ft</label><input type="number" step="0.1" data-f="w" data-i="' + i + '" value="' + r.w + '"></div>' +
+          '</div>';
+        box.appendChild(d);
+      });
+      box.querySelectorAll('input').forEach(function (inp) {
+        inp.addEventListener('input', function () {
+          const i = +inp.dataset.i;
+          const f = inp.dataset.f;
+          rooms[i][f] = (f === 'name') ? inp.value : parseFloat(inp.value) || 0;
+          rebuild();
+        });
+      });
+      box.querySelectorAll('[data-del]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          rooms.splice(+btn.dataset.del, 1);
+          if (!rooms.length) rooms.push({ name: 'Room', l: 12, w: 12 });
+          drawRooms();
+          rebuild();
+        });
+      });
+    }
+
+    function takeoff() {
+      const kind = HJ.$('kind').value;
+      const wastePct = (+HJ.$('waste').value || 10) / 100;
+      const boxsf = +HJ.$('boxsf').value || 20;
+      const net = roomSf();
+      const withWaste = net * (1 + wastePct);
+      const roomList = rooms.map(function (r) { return r.name + ' ' + r.l + '×' + r.w; }).join(', ');
+      let items = [];
+      let notes = net.toFixed(1) + ' sf net. ' + (wastePct * 100) + '% waste → ' + withWaste.toFixed(1) + ' sf. Rooms: ' + roomList + '.';
+
+      if (kind === 'carpet') {
+        const rollW = 12;
+        const lf = HJ.ceil(withWaste / rollW);
+        items = [
+          { id: 'carp', name: 'Carpet (12 ft roll)', qty: lf, unit: 'lf', note: withWaste.toFixed(0) + ' sf; ask shop to seam' },
+          { id: 'pad', name: 'Carpet pad (12 ft)', qty: lf, unit: 'lf', note: 'Match roll length' },
+          { id: 'tack', name: 'Tack strip (linear ft of perimeter, rough)', qty: HJ.ceil(rooms.reduce(function (s, r) { return s + 2 * (r.l + r.w); }, 0)), unit: 'lf', note: '' },
+          { id: 'trans', name: 'Transition / Z-bar / binder bar', qty: Math.max(1, rooms.length), unit: 'ea', note: 'Doorways' }
+        ];
+        notes += '\nCarpet billed in linear feet of 12 ft goods.';
+      } else if (kind === 'tile') {
+        const boxes = HJ.ceil(withWaste / boxsf);
+        const bagsThin = HJ.ceil(withWaste / 50);
+        const grout = HJ.ceil(withWaste / 100);
+        items = [
+          { id: 'tile', name: 'Tile (' + boxsf + ' sf/carton)', qty: boxes, unit: 'carton', note: withWaste.toFixed(0) + ' sf with waste' },
+          { id: 'thin', name: 'Thinset / mortar 50 lb', qty: bagsThin, unit: 'bag', note: '~50 sf/bag on floors — check bag' },
+          { id: 'grout', name: 'Sanded grout 25 lb', qty: grout, unit: 'bag', note: 'Depends on joint size' },
+          { id: 'spac', name: 'Tile spacers bag', qty: 1, unit: 'bag', note: '' },
+          { id: 'uw', name: 'Uncoupling / cement board (sheets 3×5 = 15 sf)', qty: HJ.ceil(net / 15), unit: 'sheet', note: 'If no existing backer' },
+          { id: 'trans', name: 'Schluter / threshold', qty: Math.max(1, rooms.length), unit: 'ea', note: 'Doorways' },
+          { id: 'base', name: 'Base / shoe (lf perimeter)', qty: HJ.ceil(rooms.reduce(function (s, r) { return s + 2 * (r.l + r.w); }, 0) * 1.05), unit: 'lf', note: '' }
+        ];
+      } else {
+        const boxes = HJ.ceil(withWaste / boxsf);
+        const kindName = { lvp: 'LVP / vinyl plank', laminate: 'Laminate', hardwood: 'Hardwood' }[kind];
+        items = [
+          { id: 'flr', name: kindName + ' (' + boxsf + ' sf/carton)', qty: boxes, unit: 'carton', note: withWaste.toFixed(0) + ' sf with waste' },
+          { id: 'pad', name: 'Underlayment (100 sf roll)', qty: kind === 'hardwood' ? 0 : HJ.ceil(net / 100), unit: 'roll', note: kind === 'lvp' ? 'Skip if pad attached' : '' },
+          { id: 'trans', name: 'T-mold / reducer / end cap', qty: Math.max(1, rooms.length), unit: 'ea', note: 'Doorways' },
+          { id: 'qtr', name: 'Quarter-round / shoe (lf)', qty: HJ.ceil(rooms.reduce(function (s, r) { return s + 2 * (r.l + r.w); }, 0) * 1.05), unit: 'lf', note: '' },
+          { id: 'glue', name: kind === 'hardwood' ? 'Wood adhesive / nails' : 'Optional glue (if not click)', qty: kind === 'hardwood' ? HJ.ceil(withWaste / 80) : 0, unit: kind === 'hardwood' ? 'tube/box' : 'ea', note: '' }
+        ].filter(function (it) { return it.qty > 0; });
+      }
+      return { items, notes };
+    }
+
+    function rebuild() {
+      const t = takeoff();
+      HJ.renderTable(t.items, KEY, t.notes);
+    }
+    window.rebuild = rebuild;
+
+    HJ.$('addRoom').addEventListener('click', function () {
+      rooms.push({ name: 'Room ' + (rooms.length + 1), l: 12, w: 10 });
+      drawRooms();
+      rebuild();
+    });
+    ['kind','waste','boxsf','tilesf'].forEach(function (id) {
+      HJ.$(id).addEventListener('input', rebuild);
+      HJ.$(id).addEventListener('change', rebuild);
+    });
+    HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('FLOORING — shop quote', t.items, t.notes); });
+    HJ.wireReset('resetPrices', KEY, rebuild);
+    drawRooms();
+    rebuild();
+  </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paint rooms</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Paint rooms</h1>
+    <p>Walls, ceiling, trim — gallons for HD, Lowe’s, or a paint store.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="fence.html">Wood fence</a>
+      <a href="chainlink.html">Cyclone fence</a>
+      <a href="flooring.html">Floors</a>
+      <a class="active" href="paint.html">Paint</a>
+    </nav>
+  </header>
+  <div class="wrap">
+    <div class="grid no-print">
+      <fieldset>
+        <legend>Rooms</legend>
+        <div id="rooms"></div>
+        <div class="actions">
+          <button type="button" class="ghost" id="addRoom">Add room</button>
+        </div>
+        <div class="row2">
+          <div>
+            <label for="coats">Coats (walls &amp; ceiling)</label>
+            <select id="coats">
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+          <div>
+            <label for="cover">Sq ft per gallon</label>
+            <input id="cover" type="number" value="350">
+          </div>
+          <div>
+            <label for="primer">Primer?</label>
+            <select id="primer">
+              <option value="0">No</option>
+              <option value="1" selected>Yes, 1 coat walls + ceiling</option>
+            </select>
+          </div>
+          <div>
+            <label for="sheen">Wall sheen (for the list)</label>
+            <select id="sheen">
+              <option>Eggshell</option>
+              <option>Satin</option>
+              <option>Flat</option>
+              <option>Semi-gloss</option>
+            </select>
+          </div>
+        </div>
+        <p class="hint">Doors and windows are subtracted from wall area. Trim uses ~400 lf per gallon of enamel. Same wall color in every room unless you split the job yourself.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Use</legend>
+        <p class="hint" style="color:var(--ink)">Paint stores will tint gallons. Copy the list and tell them sheen and color names.</p>
+        <div class="actions">
+          <button type="button" onclick="window.print()">Print / PDF</button>
+          <button type="button" class="ghost" id="copyBtn">Copy shop list</button>
+          <button type="button" class="ghost" id="resetPrices">Clear saved prices</button>
+        </div>
+      </fieldset>
+    </div>
+    <div class="totals" id="totals"></div>
+    <div style="overflow-x:auto;">
+      <table id="list">
+        <thead>
+          <tr>
+            <th>Item</th><th class="num">Qty</th><th>Unit</th>
+            <th class="num col-hd">HD $</th><th class="num col-lw">Lowe’s $</th><th class="num col-ml">Store $</th>
+            <th class="num">HD</th><th class="num">Lowe’s</th><th class="num">Store</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3>Notes for the paint store</h3>
+    <div class="notes" id="notes"></div>
+    <footer>Hobby takeoff. Dark colors and new drywall drink paint — extra coat is cheaper than a second trip.</footer>
+  </div>
+  <script src="common.js"></script>
+  <script>
+    const KEY = 'paintPrices.v1';
+    let rooms = [
+      { name: 'Living', l: 16, w: 14, h: 8, doors: 2, windows: 2 },
+      { name: 'Bedroom', l: 12, w: 12, h: 8, doors: 1, windows: 1 }
+    ];
+
+    function drawRooms() {
+      const box = HJ.$('rooms');
+      box.innerHTML = '';
+      rooms.forEach(function (r, i) {
+        const d = document.createElement('div');
+        d.className = 'room';
+        d.innerHTML =
+          '<h3>' + (r.name || ('Room ' + (i + 1))) +
+          ' <button type="button" class="ghost" data-del="' + i + '" style="padding:.15rem .45rem;font-size:.8rem;">remove</button></h3>' +
+          '<div class="row3">' +
+          '<div><label>Name</label><input data-f="name" data-i="' + i + '" value="' + (r.name || '') + '"></div>' +
+          '<div><label>L ft</label><input type="number" step="0.1" data-f="l" data-i="' + i + '" value="' + r.l + '"></div>' +
+          '<div><label>W ft</label><input type="number" step="0.1" data-f="w" data-i="' + i + '" value="' + r.w + '"></div>' +
+          '<div><label>H ft</label><input type="number" step="0.1" data-f="h" data-i="' + i + '" value="' + r.h + '"></div>' +
+          '<div><label>Doors</label><input type="number" data-f="doors" data-i="' + i + '" value="' + r.doors + '"></div>' +
+          '<div><label>Windows</label><input type="number" data-f="windows" data-i="' + i + '" value="' + r.windows + '"></div>' +
+          '</div>';
+        box.appendChild(d);
+      });
+      box.querySelectorAll('input').forEach(function (inp) {
+        inp.addEventListener('input', function () {
+          const i = +inp.dataset.i, f = inp.dataset.f;
+          rooms[i][f] = (f === 'name') ? inp.value : parseFloat(inp.value) || 0;
+          rebuild();
+        });
+      });
+      box.querySelectorAll('[data-del]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          rooms.splice(+btn.dataset.del, 1);
+          if (!rooms.length) rooms.push({ name: 'Room', l: 12, w: 12, h: 8, doors: 1, windows: 1 });
+          drawRooms();
+          rebuild();
+        });
+      });
+    }
+
+    function takeoff() {
+      const coats = +HJ.$('coats').value;
+      const cover = +HJ.$('cover').value || 350;
+      const primer = +HJ.$('primer').value;
+      const sheen = HJ.$('sheen').value;
+      let wall = 0, ceil = 0, trimLf = 0;
+      const bits = [];
+      rooms.forEach(function (r) {
+        const perim = 2 * (r.l + r.w);
+        const w = perim * r.h - r.doors * 20 - r.windows * 15;
+        wall += Math.max(0, w);
+        ceil += r.l * r.w;
+        trimLf += perim + r.doors * 17 + r.windows * 12;
+        bits.push(r.name + ' ' + r.l + '×' + r.w + '×' + r.h);
+      });
+      const wallGal = HJ.ceil(wall * coats / cover);
+      const ceilGal = HJ.ceil(ceil * coats / cover);
+      const primGal = primer ? HJ.ceil((wall + ceil) / cover) : 0;
+      const trimGal = Math.max(1, HJ.ceil(trimLf / 400));
+      const items = [
+        { id: 'wall', name: 'Wall paint, ' + sheen + ' (gallon)', qty: wallGal, unit: 'gal', note: HJ.ceil(wall) + ' sf walls × ' + coats + ' coats' },
+        { id: 'ceil', name: 'Ceiling paint, flat (gallon)', qty: ceilGal, unit: 'gal', note: HJ.ceil(ceil) + ' sf × ' + coats + ' coats' },
+        { id: 'prim', name: 'Primer (gallon)', qty: primGal, unit: 'gal', note: primer ? 'Walls + ceiling, 1 coat' : '' },
+        { id: 'trim', name: 'Trim/door enamel, semi-gloss (gallon)', qty: trimGal, unit: 'gal', note: HJ.ceil(trimLf) + ' lf trim/doors/windows' },
+        { id: 'tape', name: 'Painter’s tape 1.88″', qty: Math.max(2, rooms.length), unit: 'roll', note: '' },
+        { id: 'plastic', name: 'Plastic sheeting / drop cloth', qty: rooms.length, unit: 'ea', note: '' },
+        { id: 'roll', name: '9″ roller cover (3-pack)', qty: 1, unit: 'pk', note: '' },
+        { id: 'brush', name: '2–2.5″ sash brush', qty: 2, unit: 'ea', note: '' },
+        { id: 'tray', name: 'Tray + liner', qty: 1, unit: 'set', note: '' }
+      ].filter(function (it) { return it.qty > 0; });
+      const notes = bits.join('; ') + '.\n' + coats + ' coats, ~' + cover + ' sf/gal. Same wall color all rooms.';
+      return { items, notes };
+    }
+
+    function rebuild() {
+      const t = takeoff();
+      HJ.renderTable(t.items, KEY, t.notes);
+    }
+    window.rebuild = rebuild;
+    HJ.$('addRoom').addEventListener('click', function () {
+      rooms.push({ name: 'Room ' + (rooms.length + 1), l: 12, w: 10, h: 8, doors: 1, windows: 1 });
+      drawRooms();
+      rebuild();
+    });
+    ['coats','cover','primer','sheen'].forEach(function (id) {
+      HJ.$(id).addEventListener('input', rebuild);
+      HJ.$(id).addEventListener('change', rebuild);
+    });
+    HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('PAINT — store quote', t.items, t.notes); });
+    HJ.wireReset('resetPrices', KEY, rebuild);
+    drawRooms();
+    rebuild();
+  </script>
+</body>
+</html>
