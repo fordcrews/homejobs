@@ -6,13 +6,51 @@
   }
   function ceil(x) { return Math.ceil(x - 1e-9); }
 
-  function loadPrices(key) {
-    try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) { return {}; }
+  var catalog = {};
+  var catalogLoaded = false;
+
+  function mergePrices(key) {
+    const saved = (function () {
+      try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) { return {}; }
+    })();
+    const cat = catalog[key] || {};
+    const out = {};
+    Object.keys(cat).concat(Object.keys(saved)).forEach(function (id) {
+      const s = saved[id] || {};
+      const c = cat[id] || {};
+      out[id] = {
+        hd: (s.hd !== undefined && s.hd !== '') ? s.hd : (c.hd || ''),
+        lw: (s.lw !== undefined && s.lw !== '') ? s.lw : (c.lw || ''),
+        ml: (s.ml !== undefined && s.ml !== '') ? s.ml : (c.ml || '')
+      };
+    });
+    return out;
   }
+  function loadPrices(key) { return mergePrices(key); }
   function savePrices(key, p) { localStorage.setItem(key, JSON.stringify(p)); }
 
+  function applyCatalog(j, then) {
+    catalog = j || {};
+    catalogLoaded = true;
+    var el = document.getElementById('priceAsOf');
+    if (el && catalog.updated) {
+      el.textContent = 'Catalog prices as of ' + catalog.updated + ' (national web; your store will differ). Edit a cell to override.';
+    }
+    if (then) then();
+  }
+  function loadCatalog(then) {
+    if (window.HJ_PRICES) {
+      applyCatalog(window.HJ_PRICES, then);
+      return;
+    }
+    fetch('prices.json', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { applyCatalog(j, then); })
+      .catch(function () { if (then) then(); });
+  }
+
   function renderTable(items, priceKey, notesText) {
-    const prices = loadPrices(priceKey);
+    const prices = mergePrices(priceKey);
     const tb = document.querySelector('#list tbody');
     tb.innerHTML = '';
     let hd = 0, lw = 0, ml = 0;
@@ -56,7 +94,7 @@
 
     tb.querySelectorAll('input.price').forEach(function (inp) {
       inp.addEventListener('change', function () {
-        const cur = loadPrices(priceKey);
+        const cur = mergePrices(priceKey);
         cur[inp.dataset.id] = cur[inp.dataset.id] || {};
         cur[inp.dataset.id][inp.dataset.store] = inp.value;
         savePrices(priceKey, cur);
@@ -93,6 +131,6 @@
   }
 
   global.HJ = {
-    $, money, ceil, loadPrices, savePrices, renderTable, millText, wireCopy, wireReset
+    $, money, ceil, loadPrices, savePrices, loadCatalog, renderTable, millText, wireCopy, wireReset
   };
 })(window);

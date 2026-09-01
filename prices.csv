@@ -1,0 +1,24 @@
+key,name,hd,lw,ml,hd_url,lw_url
+fencePrices.v1:p4,4x4x8 treated post (p4); 6x6x8 is separate,11.28,12.48,,https://www.homedepot.com/p/4-in-x-4-in-x-8-ft-2-Ground-Contact-Pressure-Treated-Southern-Yellow-Pine-Wood-Post-194354/205220341,https://www.lowes.com/search?searchTerm=4x4x8%20pressure%20treated%20post
+fencePrices.v1:p6,4x4x8 treated post (p4); 6x6x8 is separate,32.28,28.00,,https://www.homedepot.com/p/4-in-x-4-in-x-8-ft-2-Ground-Contact-Pressure-Treated-Southern-Yellow-Pine-Wood-Post-194354/205220341,https://www.lowes.com/search?searchTerm=4x4x8%20pressure%20treated%20post
+fencePrices.v1:rail,2x4x8 treated rail,4.58,5.48,,https://www.homedepot.com/s/2x4x8%20pressure%20treated,https://www.lowes.com/search?searchTerm=2x4x8%20pressure%20treated
+fencePrices.v1:board,6 ft 1x6 treated dog-ear picket,2.98,3.28,,https://www.homedepot.com/b/Lumber-Composites-Fencing-Gates-Wood-Fencing-Wood-Fence-Pickets/N-5yc1vZc3mo,https://www.lowes.com/search?searchTerm=6%20ft%20dog%20ear%20fence%20picket
+fencePrices.v1:conc,Quikrete 80 lb concrete mix,6.24,6.48,,https://www.homedepot.com/p/Quikrete-80-lb-Concrete-Mix-110180/100318511,https://www.lowes.com/search?searchTerm=quikrete%2080%20lb%20concrete%20mix
+chainlinkPrices.v1:conc,Quikrete 80 lb concrete mix,6.24,6.48,,https://www.homedepot.com/p/Quikrete-80-lb-Concrete-Mix-110180/100318511,https://www.lowes.com/search?searchTerm=quikrete%2080%20lb%20concrete%20mix
+fencePrices.v1:cap,4x4 pyramid post cap,2.57,3.48,,https://www.homedepot.com/s/4x4%20pyramid%20post%20cap,https://www.lowes.com/search?searchTerm=4x4%20post%20cap
+fencePrices.v1:hinge,3.5 in T-hinge pair (price per pair),19.74,18.96,,https://www.homedepot.com/s/heavy%20tee%20hinge,https://www.lowes.com/search?searchTerm=tee%20hinge%20fence%20gate
+fencePrices.v1:latch,Gate latch,6.98,7.48,,https://www.homedepot.com/s/gate%20latch,https://www.lowes.com/search?searchTerm=gate%20latch
+fencePrices.v1:drop,Cane bolt drop rod,12.98,14.98,,https://www.homedepot.com/s/cane%20bolt,https://www.lowes.com/search?searchTerm=cane%20bolt
+fencePrices.v1:screws,1 lb exterior screws #8 x 2 in,8.97,9.48,,https://www.homedepot.com/s/exterior%20screws%208%20x%202,https://www.lowes.com/search?searchTerm=exterior%20screws%208%20x%202
+chainlinkPrices.v1:mesh,4 ft x 50 ft 11.5 ga chain link fabric,124.59,119.00,,https://www.homedepot.com/s/4%20ft%20x%2050%20ft%20chain%20link%20fabric,https://www.lowes.com/search?searchTerm=4%20ft%20x%2050%20ft%20chain%20link%20fabric
+chainlinkPrices.v1:line,1-5/8 in chain link line post,12.97,12.00,,https://www.homedepot.com/s/chain%20link%20line%20post%201-5/8,https://www.lowes.com/search?searchTerm=chain%20link%20line%20post
+chainlinkPrices.v1:term,2-3/8 in terminal post,24.97,25.00,,https://www.homedepot.com/s/chain%20link%20terminal%20post%202-3/8,https://www.lowes.com/search?searchTerm=chain%20link%20terminal%20post
+chainlinkPrices.v1:rail,1-3/8 in x 10.5 ft top rail,17.98,18.00,,https://www.homedepot.com/s/chain%20link%20top%20rail,https://www.lowes.com/search?searchTerm=chain%20link%20top%20rail
+chainlinkPrices.v1:wgate,4 ft chain link walk gate,64.97,55.00,,https://www.homedepot.com/s/chain%20link%20walk%20gate,https://www.lowes.com/search?searchTerm=chain%20link%20walk%20gate
+paintPrices.v1:wall,Interior eggshell gallon (Behr / Valspar class),36.98,34.98,,https://www.homedepot.com/s/behr%20premium%20plus%20eggshell%20gallon,https://www.lowes.com/search?searchTerm=valspar%20reserve%20eggshell%20gallon
+paintPrices.v1:ceil,Ceiling paint gallon,28.98,26.98,,https://www.homedepot.com/s/ceiling%20paint%20gallon,https://www.lowes.com/search?searchTerm=ceiling%20paint%20gallon
+paintPrices.v1:prim,Interior primer gallon,22.98,19.98,,https://www.homedepot.com/s/kilz%20primer%20gallon,https://www.lowes.com/search?searchTerm=primer%20gallon
+paintPrices.v1:trim,Trim enamel gallon,38.98,36.98,,https://www.homedepot.com/s/semi-gloss%20enamel%20gallon,https://www.lowes.com/search?searchTerm=semi%20gloss%20enamel%20gallon
+floorPrices.v1:flr,LVP carton ~20 sf,38.97,36.48,,https://www.homedepot.com/b/Flooring-Vinyl-Flooring-Luxury-Vinyl-Plank-Flooring/N-5yc1vZasah,https://www.lowes.com/pl/Luxury-vinyl-plank-Vinyl-flooring-Flooring/4294601214
+floorPrices.v1:tile,Ceramic floor tile carton,28.96,26.48,,https://www.homedepot.com/b/Flooring-Tile/N-5yc1vZar3d,https://www.lowes.com/pl/Tile-Flooring/4294601210
+floorPrices.v1:carp,Carpet 12 ft goods per linear foot,18.00,16.00,,https://www.homedepot.com/b/Flooring-Carpet/N-5yc1vZaq7i,https://www.lowes.com/pl/Carpet-Flooring/4294601206

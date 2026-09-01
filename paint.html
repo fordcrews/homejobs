@@ -19,6 +19,7 @@
     </nav>
   </header>
   <div class="wrap">
+    <p class="hint" id="priceAsOf">Loading catalog prices…</p>
     <div class="grid no-print">
       <fieldset>
         <legend>Rooms</legend>
@@ -85,6 +86,7 @@
     <div class="notes" id="notes"></div>
     <footer>Hobby takeoff. Dark colors and new drywall drink paint — extra coat is cheaper than a second trip.</footer>
   </div>
+  <script src="prices.js"></script>
   <script src="common.js"></script>
   <script>
     const KEY = 'paintPrices.v1';
@@ -180,7 +182,7 @@
     HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('PAINT — store quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
     drawRooms();
-    rebuild();
+    HJ.loadCatalog(rebuild);
   </script>
 </body>
 </html>

@@ -1,0 +1,167 @@
+{
+  "zip": "39759",
+  "items": [
+    {
+      "keys": ["fencePrices.v1:p4", "fencePrices.v1:p6"],
+      "name": "4x4x8 treated post (p4); 6x6x8 is separate",
+      "hd_url": "https://www.homedepot.com/p/4-in-x-4-in-x-8-ft-2-Ground-Contact-Pressure-Treated-Southern-Yellow-Pine-Wood-Post-194354/205220341",
+      "lw_url": "https://www.lowes.com/search?searchTerm=4x4x8%20pressure%20treated%20post",
+      "hd_item": "205220341"
+    },
+    {
+      "keys": ["fencePrices.v1:p4"],
+      "name": "4x4x8 #2 GC PT post",
+      "hd_url": "https://www.homedepot.com/p/4-in-x-4-in-x-8-ft-2-Ground-Contact-Pressure-Treated-Southern-Yellow-Pine-Wood-Post-194354/205220341",
+      "lw_url": "https://www.lowes.com/search?searchTerm=4+in+x+4+in+x+8+ft+treated+post",
+      "query": "4x4x8 pressure treated post"
+    },
+    {
+      "keys": ["fencePrices.v1:p6"],
+      "name": "6x6x8 treated post",
+      "hd_url": "https://www.homedepot.com/s/6x6x8%20pressure%20treated%20post",
+      "lw_url": "https://www.lowes.com/search?searchTerm=6x6x8%20pressure%20treated%20post",
+      "query": "6x6x8 pressure treated post"
+    },
+    {
+      "keys": ["fencePrices.v1:rail"],
+      "name": "2x4x8 treated rail",
+      "hd_url": "https://www.homedepot.com/s/2x4x8%20pressure%20treated",
+      "lw_url": "https://www.lowes.com/search?searchTerm=2x4x8%20pressure%20treated",
+      "query": "2x4x8 pressure treated lumber"
+    },
+    {
+      "keys": ["fencePrices.v1:board"],
+      "name": "6 ft 1x6 treated dog-ear picket",
+      "hd_url": "https://www.homedepot.com/b/Lumber-Composites-Fencing-Gates-Wood-Fencing-Wood-Fence-Pickets/N-5yc1vZc3mo",
+      "lw_url": "https://www.lowes.com/search?searchTerm=6%20ft%20dog%20ear%20fence%20picket",
+      "query": "6 ft pressure treated pine dog ear fence picket"
+    },
+    {
+      "keys": ["fencePrices.v1:conc", "chainlinkPrices.v1:conc"],
+      "name": "Quikrete 80 lb concrete mix",
+      "hd_url": "https://www.homedepot.com/p/Quikrete-80-lb-Concrete-Mix-110180/100318511",
+      "lw_url": "https://www.lowes.com/search?searchTerm=quikrete%2080%20lb%20concrete%20mix",
+      "query": "Quikrete 80 lb Concrete Mix",
+      "hd_item": "100318511"
+    },
+    {
+      "keys": ["fencePrices.v1:cap"],
+      "name": "4x4 pyramid post cap",
+      "hd_url": "https://www.homedepot.com/s/4x4%20pyramid%20post%20cap",
+      "lw_url": "https://www.lowes.com/search?searchTerm=4x4%20post%20cap",
+      "query": "4x4 pyramid post cap"
+    },
+    {
+      "keys": ["fencePrices.v1:hinge"],
+      "name": "3.5 in T-hinge pair (price per pair)",
+      "hd_url": "https://www.homedepot.com/s/heavy%20tee%20hinge",
+      "lw_url": "https://www.lowes.com/search?searchTerm=tee%20hinge%20fence%20gate",
+      "query": "Everbilt 3-1/2 in tee hinge"
+    },
+    {
+      "keys": ["fencePrices.v1:latch"],
+      "name": "Gate latch",
+      "hd_url": "https://www.homedepot.com/s/gate%20latch",
+      "lw_url": "https://www.lowes.com/search?searchTerm=gate%20latch",
+      "query": "black gate latch"
+    },
+    {
+      "keys": ["fencePrices.v1:drop"],
+      "name": "Cane bolt drop rod",
+      "hd_url": "https://www.homedepot.com/s/cane%20bolt",
+      "lw_url": "https://www.lowes.com/search?searchTerm=cane%20bolt",
+      "query": "cane bolt gate"
+    },
+    {
+      "keys": ["fencePrices.v1:screws"],
+      "name": "1 lb exterior screws #8 x 2 in",
+      "hd_url": "https://www.homedepot.com/s/exterior%20screws%208%20x%202",
+      "lw_url": "https://www.lowes.com/search?searchTerm=exterior%20screws%208%20x%202",
+      "query": "deck screw 8 x 2 1 lb"
+    },
+    {
+      "keys": ["chainlinkPrices.v1:mesh"],
+      "name": "4 ft x 50 ft 11.5 ga chain link fabric",
+      "hd_url": "https://www.homedepot.com/s/4%20ft%20x%2050%20ft%20chain%20link%20fabric",
+      "lw_url": "https://www.lowes.com/search?searchTerm=4%20ft%20x%2050%20ft%20chain%20link%20fabric",
+      "query": "4 ft x 50 ft 11.5 gauge chain link fabric"
+    },
+    {
+      "keys": ["chainlinkPrices.v1:line"],
+      "name": "1-5/8 in chain link line post",
+      "hd_url": "https://www.homedepot.com/s/chain%20link%20line%20post%201-5/8",
+      "lw_url": "https://www.lowes.com/search?searchTerm=chain%20link%20line%20post",
+      "query": "1-5/8 chain link line post"
+    },
+    {
+      "keys": ["chainlinkPrices.v1:term"],
+      "name": "2-3/8 in terminal post",
+      "hd_url": "https://www.homedepot.com/s/chain%20link%20terminal%20post%202-3/8",
+      "lw_url": "https://www.lowes.com/search?searchTerm=chain%20link%20terminal%20post",
+      "query": "2-3/8 chain link terminal post"
+    },
+    {
+      "keys": ["chainlinkPrices.v1:rail"],
+      "name": "1-3/8 in x 10.5 ft top rail",
+      "hd_url": "https://www.homedepot.com/s/chain%20link%20top%20rail",
+      "lw_url": "https://www.lowes.com/search?searchTerm=chain%20link%20top%20rail",
+      "query": "chain link top rail 1-3/8"
+    },
+    {
+      "keys": ["chainlinkPrices.v1:wgate"],
+      "name": "4 ft chain link walk gate",
+      "hd_url": "https://www.homedepot.com/s/chain%20link%20walk%20gate",
+      "lw_url": "https://www.lowes.com/search?searchTerm=chain%20link%20walk%20gate",
+      "query": "4 ft chain link walk gate"
+    },
+    {
+      "keys": ["paintPrices.v1:wall"],
+      "name": "Interior eggshell gallon (Behr / Valspar class)",
+      "hd_url": "https://www.homedepot.com/s/behr%20premium%20plus%20eggshell%20gallon",
+      "lw_url": "https://www.lowes.com/search?searchTerm=valspar%20reserve%20eggshell%20gallon",
+      "query": "interior eggshell paint gallon"
+    },
+    {
+      "keys": ["paintPrices.v1:ceil"],
+      "name": "Ceiling paint gallon",
+      "hd_url": "https://www.homedepot.com/s/ceiling%20paint%20gallon",
+      "lw_url": "https://www.lowes.com/search?searchTerm=ceiling%20paint%20gallon",
+      "query": "ceiling paint gallon"
+    },
+    {
+      "keys": ["paintPrices.v1:prim"],
+      "name": "Interior primer gallon",
+      "hd_url": "https://www.homedepot.com/s/kilz%20primer%20gallon",
+      "lw_url": "https://www.lowes.com/search?searchTerm=primer%20gallon",
+      "query": "interior primer gallon"
+    },
+    {
+      "keys": ["paintPrices.v1:trim"],
+      "name": "Trim enamel gallon",
+      "hd_url": "https://www.homedepot.com/s/semi-gloss%20enamel%20gallon",
+      "lw_url": "https://www.lowes.com/search?searchTerm=semi%20gloss%20enamel%20gallon",
+      "query": "interior semi gloss enamel gallon"
+    },
+    {
+      "keys": ["floorPrices.v1:flr"],
+      "name": "LVP carton ~20 sf",
+      "hd_url": "https://www.homedepot.com/b/Flooring-Vinyl-Flooring-Luxury-Vinyl-Plank-Flooring/N-5yc1vZasah",
+      "lw_url": "https://www.lowes.com/pl/Luxury-vinyl-plank-Vinyl-flooring-Flooring/4294601214",
+      "query": "lifeproof luxury vinyl plank"
+    },
+    {
+      "keys": ["floorPrices.v1:tile"],
+      "name": "Ceramic floor tile carton",
+      "hd_url": "https://www.homedepot.com/b/Flooring-Tile/N-5yc1vZar3d",
+      "lw_url": "https://www.lowes.com/pl/Tile-Flooring/4294601210",
+      "query": "12x24 porcelain floor tile"
+    },
+    {
+      "keys": ["floorPrices.v1:carp"],
+      "name": "Carpet 12 ft goods per linear foot",
+      "hd_url": "https://www.homedepot.com/b/Flooring-Carpet/N-5yc1vZaq7i",
+      "lw_url": "https://www.lowes.com/pl/Carpet-Flooring/4294601206",
+      "query": "carpet 12 foot width"
+    }
+  ]
+}

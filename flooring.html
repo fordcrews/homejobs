@@ -19,6 +19,7 @@
     </nav>
   </header>
   <div class="wrap">
+    <p class="hint" id="priceAsOf">Loading catalog prices…</p>
     <div class="grid no-print">
       <fieldset>
         <legend>Rooms</legend>
@@ -85,6 +86,7 @@
     <div class="notes" id="notes"></div>
     <footer>Hobby takeoff. Confirm actual carton coverage on the box you buy — it varies by brand.</footer>
   </div>
+  <script src="prices.js"></script>
   <script src="common.js"></script>
   <script>
     const KEY = 'floorPrices.v1';
@@ -195,7 +197,7 @@
     HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('FLOORING — shop quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
     drawRooms();
-    rebuild();
+    HJ.loadCatalog(rebuild);
   </script>
 </body>
 </html>

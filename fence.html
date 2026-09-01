@@ -19,6 +19,7 @@
     </nav>
   </header>
   <div class="wrap">
+    <p class="hint" id="priceAsOf">Loading catalog prices…</p>
     <div class="grid no-print">
       <fieldset>
         <legend>The fence</legend>
@@ -105,6 +106,7 @@
     <div class="notes" id="notes"></div>
     <footer>Hobby takeoff. Treated ground-contact posts. Call 811 before you dig.</footer>
   </div>
+  <script src="prices.js"></script>
   <script src="common.js"></script>
   <script>
     const KEY = 'fencePrices.v1';
@@ -159,7 +161,7 @@
     });
     HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('WOOD FENCE — mill quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
-    rebuild();
+    HJ.loadCatalog(rebuild);
   </script>
 </body>
 </html>
