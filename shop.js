@@ -8,7 +8,7 @@
       company: '',
       phone: '',
       email: '',
-      address: '',
+      address: 'Jackson, MS',
       taxPct: 7,
       markupPct: 20,
       costStore: 'best',
@@ -151,7 +151,7 @@
     var invNo = loadShop().nextInvoice || 1001;
     root.querySelector('.doc-quote').innerHTML = letterhead('QUOTE', 'Valid 30 days') +
       moneyRows(quoteLines) + sumTable(t) +
-      '<p class="hint">Not a contract. Materials billed at cost plus markup from Shop settings. Labor from your rate sheet.</p>';
+      '<p class="hint">Not a contract. Materials billed at cost plus markup from Customize. Labor from your rate sheet.</p>';
     root.querySelector('.doc-invoice').innerHTML = letterhead('INVOICE', 'Invoice #' + invNo) +
       moneyRows(quoteLines) + sumTable(t) +
       '<p class="hint">Please pay to the company named above. Thank you.</p>';
@@ -203,7 +203,7 @@
       '<div><label>Phone</label><input id="custPhone" value="' + esc(c.phone || '') + '"></div>' +
       '<div><label>Email</label><input id="custEmail" value="' + esc(c.email || '') + '"></div>' +
       '<div><label>Job address</label><input id="custAddr" value="' + esc(c.address || '') + '"></div>' +
-      '</div><p class="hint">Saved in this browser. Set company name and labor rates on the <a href="shop.html">Shop</a> tab.</p></fieldset></div>' +
+      '</div><p class="hint">Saved in this browser. Set company name and labor rates on the <a href="shop.html">Customize</a> tab.</p></fieldset></div>' +
       '<div class="panel" id="panel-quote"><div class="doc doc-quote"></div>' +
       '<div class="actions no-print"><button type="button" data-print="quote">Print quote</button></div></div>' +
       '<div class="panel" id="panel-invoice"><div class="doc doc-invoice"></div>' +

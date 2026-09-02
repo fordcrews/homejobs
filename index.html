@@ -12,17 +12,17 @@
     <p>Measure once. One list for Home Depot, Lowe’s, and the local shop.</p>
     <nav>
       <a class="active" href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
       <a href="fence.html">Wood fence</a>
       <a href="chainlink.html">Cyclone fence</a>
       <a href="flooring.html">Floors</a>
       <a href="paint.html">Paint</a>
+      <a class="nav-end" href="shop.html">Customize</a>
     </nav>
   </header>
   <div class="wrap">
     <div class="cards">
       <a class="card" href="shop.html">
-        <h2>Shop</h2>
+        <h2>Customize</h2>
         <p>Company name, phone, email, labor rates, markup, tax. Used on quotes and invoices.</p>
       </a>
       <a class="card" href="fence.html">
@@ -42,7 +42,7 @@
         <p>One room or several. Walls, ceiling, trim, primer, gallons.</p>
       </a>
     </div>
-    <p class="hint">Hobby takeoffs. Catalog HD/Lowe’s prices are in <code>prices.json</code> (as of 2026-09-01, national web — Starkville will differ). Type over any cell to override. Refresh: <code>python update_prices.py</code> in this folder (live scrape is usually blocked; use <code>--from-csv prices.csv</code> after you paste store prices).</p>
+    <p class="hint">Hobby takeoffs. Catalog HD/Lowe’s prices are in <code>prices.json</code> (as of 2026-09-01, national web — Jackson, MS will differ). Type over any cell to override. Refresh: <code>python update_prices.py</code> in this folder (live scrape is usually blocked; use <code>--from-csv prices.csv</code> after you paste store prices).</p>
   </div>
 </body>
 </html>

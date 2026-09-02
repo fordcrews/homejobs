@@ -1,7 +1,7 @@
 window.HJ_PRICES = {
   "updated": "2026-09-01",
-  "source": "National Home Depot / Lowe\u2019s web listings (store price in Starkville will differ). HD and Lowe\u2019s block automated scrapes from this PC (HTTP 403), so these are hand-pulled from public search pages today. Run update_prices.py to retry live fetch.",
-  "zip_hint": "39759",
+  "source": "National Home Depot / Lowe\u2019s web listings (store price in Jackson, MS will differ). HD and Lowe\u2019s block automated scrapes from this PC (HTTP 403), so these are hand-pulled from public search pages today. Run update_prices.py to retry live fetch.",
+  "zip_hint": "39202",
   "fencePrices.v1": {
     "p4": {
       "hd": "11.28",

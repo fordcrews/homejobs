@@ -36,6 +36,7 @@ nav a {
   background: rgba(255,255,255,.12);
 }
 nav a:hover, nav a.active { background: #f96302; }
+nav a.nav-end { margin-left: auto; }
 .wrap { max-width: 1100px; margin: 0 auto; padding: 1rem; }
 .grid {
   display: grid;

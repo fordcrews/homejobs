@@ -34,7 +34,7 @@
     catalogLoaded = true;
     var el = document.getElementById('priceAsOf');
     if (el && catalog.updated) {
-      el.textContent = 'Catalog prices as of ' + catalog.updated + ' (national web; your store will differ). Edit a cell to override.';
+      el.textContent = 'Catalog prices as of ' + catalog.updated + ' (national web; Jackson, MS store will differ). Edit a cell to override.';
     }
     if (then) then();
   }
