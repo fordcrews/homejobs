@@ -1,0 +1,48 @@
+job,item,unit,key,home_depot,lowes,local1,local2,hd_url,lowes_url
+Wood fence,4x4x8 treated post (ground contact),ea,fencePrices.v1:p4,11.28,12.48,,,https://www.homedepot.com/p/4-in-x-4-in-x-8-ft-2-Ground-Contact-Pressure-Treated-Southern-Yellow-Pine-Wood-Post-194354/205220341,https://www.lowes.com/search?searchTerm=4x4x8%20pressure%20treated%20post
+Wood fence,6x6x8 treated post (corner/end/gate),ea,fencePrices.v1:p6,32.28,28.00,,,https://www.homedepot.com/p/4-in-x-4-in-x-8-ft-2-Ground-Contact-Pressure-Treated-Southern-Yellow-Pine-Wood-Post-194354/205220341,https://www.lowes.com/search?searchTerm=4x4x8%20pressure%20treated%20post
+Wood fence,2x4x8 treated rail,ea,fencePrices.v1:rail,4.58,5.48,,,https://www.homedepot.com/s/2x4x8%20pressure%20treated,https://www.lowes.com/search?searchTerm=2x4x8%20pressure%20treated
+Wood fence,6 ft 1x6 treated dog-ear picket,ea,fencePrices.v1:board,2.98,3.28,,,https://www.homedepot.com/b/Lumber-Composites-Fencing-Gates-Wood-Fencing-Wood-Fence-Pickets/N-5yc1vZc3mo,https://www.lowes.com/search?searchTerm=6%20ft%20dog%20ear%20fence%20picket
+Wood fence,Concrete mix 50-80 lb bag,bag,fencePrices.v1:conc,6.24,6.48,,,https://www.homedepot.com/p/Quikrete-80-lb-Concrete-Mix-110180/100318511,https://www.lowes.com/search?searchTerm=quikrete%2080%20lb%20concrete%20mix
+Wood fence,Post cap (pyramid),ea,fencePrices.v1:cap,2.57,3.48,,,https://www.homedepot.com/s/4x4%20pyramid%20post%20cap,https://www.lowes.com/search?searchTerm=4x4%20post%20cap
+Wood fence,Heavy T-hinge pair,pair,fencePrices.v1:hinge,19.74,18.96,,,https://www.homedepot.com/s/heavy%20tee%20hinge,https://www.lowes.com/search?searchTerm=tee%20hinge%20fence%20gate
+Wood fence,Gate latch,ea,fencePrices.v1:latch,6.98,7.48,,,https://www.homedepot.com/s/gate%20latch,https://www.lowes.com/search?searchTerm=gate%20latch
+Wood fence,Cane bolt / drop rod,ea,fencePrices.v1:drop,12.98,14.98,,,https://www.homedepot.com/s/cane%20bolt,https://www.lowes.com/search?searchTerm=cane%20bolt
+Wood fence,Exterior screws #8 x 2 in (1 lb box),box,fencePrices.v1:screws,8.97,9.48,,,https://www.homedepot.com/s/exterior%20screws%208%20x%202,https://www.lowes.com/search?searchTerm=exterior%20screws%208%20x%202
+Cyclone fence,Terminal post 2-3/8 in OD,ea,chainlinkPrices.v1:term,24.97,25.00,,,https://www.homedepot.com/s/chain%20link%20terminal%20post%202-3/8,https://www.lowes.com/search?searchTerm=chain%20link%20terminal%20post
+Cyclone fence,Line post 1-5/8 in OD,ea,chainlinkPrices.v1:line,12.97,12.00,,,https://www.homedepot.com/s/chain%20link%20line%20post%201-5/8,https://www.lowes.com/search?searchTerm=chain%20link%20line%20post
+Cyclone fence,Top rail 1-3/8 in x 10.5 ft,ea,chainlinkPrices.v1:rail,17.98,18.00,,,https://www.homedepot.com/s/chain%20link%20top%20rail,https://www.lowes.com/search?searchTerm=chain%20link%20top%20rail
+Cyclone fence,4 ft x 50 ft 11.5 ga chain-link fabric,roll,chainlinkPrices.v1:mesh,124.59,119.00,,,https://www.homedepot.com/s/4%20ft%20x%2050%20ft%20chain%20link%20fabric,https://www.lowes.com/search?searchTerm=4%20ft%20x%2050%20ft%20chain%20link%20fabric
+Cyclone fence,Tension bar,ea,chainlinkPrices.v1:bar,8.97,8.48,,,,
+Cyclone fence,Tension band,ea,chainlinkPrices.v1:band,1.28,1.38,,,,
+Cyclone fence,Brace band,ea,chainlinkPrices.v1:brace,1.48,1.58,,,,
+Cyclone fence,Loop cap (line post),ea,chainlinkPrices.v1:capl,2.47,2.28,,,,
+Cyclone fence,Dome cap (terminal),ea,chainlinkPrices.v1:capt,3.47,3.28,,,,
+Cyclone fence,Rail end,ea,chainlinkPrices.v1:rend,4.97,4.48,,,,
+Cyclone fence,Aluminum tie wire (bag ~100),bag,chainlinkPrices.v1:tie,8.97,7.98,,,,
+Cyclone fence,Bottom tension wire,lf,chainlinkPrices.v1:wire,0.28,0.32,,,,
+Cyclone fence,Concrete mix 50-80 lb bag,bag,chainlinkPrices.v1:conc,6.24,6.48,,,https://www.homedepot.com/p/Quikrete-80-lb-Concrete-Mix-110180/100318511,https://www.lowes.com/search?searchTerm=quikrete%2080%20lb%20concrete%20mix
+Cyclone fence,Walk gate (framed),ea,chainlinkPrices.v1:wgate,64.97,55.00,,,https://www.homedepot.com/s/chain%20link%20walk%20gate,https://www.lowes.com/search?searchTerm=chain%20link%20walk%20gate
+Cyclone fence,Double drive gate,ea,chainlinkPrices.v1:dgate,189.00,175.00,,,,
+Floors,LVP / laminate / hardwood carton (~20 sf),carton,floorPrices.v1:flr,38.97,36.48,,,https://www.homedepot.com/b/Flooring-Vinyl-Flooring-Luxury-Vinyl-Plank-Flooring/N-5yc1vZasah,https://www.lowes.com/pl/Luxury-vinyl-plank-Vinyl-flooring-Flooring/4294601214
+Floors,Underlayment or carpet pad,roll,floorPrices.v1:pad,24.98,22.98,,,,
+Floors,Transition / T-mold / threshold,ea,floorPrices.v1:trans,29.97,27.48,,,,
+Floors,Quarter-round / shoe,lf,floorPrices.v1:qtr,1.28,1.18,,,,
+Floors,Wood adhesive / nails,tube,floorPrices.v1:glue,7.48,6.98,,,,
+Floors,Ceramic / porcelain tile carton,carton,floorPrices.v1:tile,28.96,26.48,,,https://www.homedepot.com/b/Flooring-Tile/N-5yc1vZar3d,https://www.lowes.com/pl/Tile-Flooring/4294601210
+Floors,Thinset / mortar 50 lb,bag,floorPrices.v1:thin,18.97,17.48,,,,
+Floors,Sanded grout 25 lb,bag,floorPrices.v1:grout,16.98,15.48,,,,
+Floors,Tile spacers,bag,floorPrices.v1:spac,3.48,2.98,,,,
+Floors,Cement board 3x5 sheet,sheet,floorPrices.v1:uw,15.85,16.48,,,,
+Floors,Tile base / shoe,lf,floorPrices.v1:base,1.48,1.38,,,,
+Floors,Carpet 12 ft goods,lf,floorPrices.v1:carp,18.00,16.00,,,https://www.homedepot.com/b/Flooring-Carpet/N-5yc1vZaq7i,https://www.lowes.com/pl/Carpet-Flooring/4294601206
+Floors,Tack strip,lf,floorPrices.v1:tack,0.48,0.42,,,,
+Paint,Wall paint eggshell gallon,gal,paintPrices.v1:wall,36.98,34.98,,,https://www.homedepot.com/s/behr%20premium%20plus%20eggshell%20gallon,https://www.lowes.com/search?searchTerm=valspar%20reserve%20eggshell%20gallon
+Paint,Ceiling paint gallon,gal,paintPrices.v1:ceil,28.98,26.98,,,https://www.homedepot.com/s/ceiling%20paint%20gallon,https://www.lowes.com/search?searchTerm=ceiling%20paint%20gallon
+Paint,Primer gallon,gal,paintPrices.v1:prim,22.98,19.98,,,https://www.homedepot.com/s/kilz%20primer%20gallon,https://www.lowes.com/search?searchTerm=primer%20gallon
+Paint,Trim enamel gallon,gal,paintPrices.v1:trim,38.98,36.98,,,https://www.homedepot.com/s/semi-gloss%20enamel%20gallon,https://www.lowes.com/search?searchTerm=semi%20gloss%20enamel%20gallon
+Paint,Painter tape 1.88 in,roll,paintPrices.v1:tape,7.98,6.98,,,,
+Paint,Drop cloth / plastic,ea,paintPrices.v1:plastic,9.98,8.98,,,,
+Paint,9 in roller cover 3-pack,pk,paintPrices.v1:roll,8.97,7.98,,,,
+Paint,2-2.5 in sash brush,ea,paintPrices.v1:brush,6.97,5.98,,,,
+Paint,Tray + liner,set,paintPrices.v1:tray,5.97,4.98,,,,
