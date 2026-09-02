@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop — company &amp; labor rates</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Shop</h1>
+    <p>Your company on quotes and invoices. Labor rates and material markup.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a class="active" href="shop.html">Shop</a>
+      <a href="fence.html">Wood fence</a>
+      <a href="chainlink.html">Cyclone fence</a>
+      <a href="flooring.html">Floors</a>
+      <a href="paint.html">Paint</a>
+    </nav>
+  </header>
+  <div class="wrap">
+    <fieldset>
+      <legend>Company</legend>
+      <div class="row2">
+        <div>
+          <label for="company">Company name</label>
+          <input id="company" placeholder="Crews Fence &amp; Floor">
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" placeholder="(662) 555-0100">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" placeholder="jobs@example.com">
+        </div>
+        <div>
+          <label for="address">Address / city</label>
+          <input id="address" placeholder="Starkville, MS">
+        </div>
+        <div>
+          <label for="markupPct">Material markup %</label>
+          <input id="markupPct" type="number" step="1" value="20">
+        </div>
+        <div>
+          <label for="taxPct">Sales tax %</label>
+          <input id="taxPct" type="number" step="0.01" value="7">
+        </div>
+        <div>
+          <label for="costStore">Cost from (pull sheet / markup base)</label>
+          <select id="costStore">
+            <option value="best">Cheapest of HD / Lowe’s / mill that has a price</option>
+            <option value="hd">Home Depot</option>
+            <option value="lw">Lowe’s</option>
+            <option value="ml">Local mill / shop</option>
+          </select>
+        </div>
+        <div>
+          <label for="nextInvoice">Next invoice #</label>
+          <input id="nextInvoice" type="number" value="1001">
+        </div>
+      </div>
+    </fieldset>
+    <fieldset style="margin-top:1rem">
+      <legend>Labor rates (what you charge)</legend>
+      <div class="row2">
+        <div>
+          <label for="fenceLf">Wood fence install ($ / linear ft)</label>
+          <input id="fenceLf" type="number" step="0.25">
+        </div>
+        <div>
+          <label for="fenceGate">Hang wood gate ($ / gate)</label>
+          <input id="fenceGate" type="number" step="1">
+        </div>
+        <div>
+          <label for="chainLf">Cyclone fence install ($ / linear ft)</label>
+          <input id="chainLf" type="number" step="0.25">
+        </div>
+        <div>
+          <label for="chainGate">Hang cyclone gate ($ / gate)</label>
+          <input id="chainGate" type="number" step="1">
+        </div>
+        <div>
+          <label for="floorSf">LVP / laminate / hardwood install ($ / sf)</label>
+          <input id="floorSf" type="number" step="0.25">
+        </div>
+        <div>
+          <label for="tileSf">Tile install ($ / sf)</label>
+          <input id="tileSf" type="number" step="0.25">
+        </div>
+        <div>
+          <label for="carpetSf">Carpet install ($ / sf)</label>
+          <input id="carpetSf" type="number" step="0.25">
+        </div>
+        <div>
+          <label for="paintWallSf">Paint walls ($ / sf)</label>
+          <input id="paintWallSf" type="number" step="0.05">
+        </div>
+        <div>
+          <label for="paintCeilSf">Paint ceiling ($ / sf)</label>
+          <input id="paintCeilSf" type="number" step="0.05">
+        </div>
+        <div>
+          <label for="paintTrimLf">Paint trim ($ / linear ft)</label>
+          <input id="paintTrimLf" type="number" step="0.05">
+        </div>
+        <div>
+          <label for="hourly">General labor ($ / hour)</label>
+          <input id="hourly" type="number" step="1">
+        </div>
+      </div>
+      <p class="hint">These are sell prices on the quote, not what a helper costs you. Saved in this browser only (not GitHub).</p>
+    </fieldset>
+    <div class="actions">
+      <button type="button" id="save">Save shop</button>
+      <span class="hint" id="saved"></span>
+    </div>
+  </div>
+  <script src="common.js"></script>
+  <script src="shop.js"></script>
+  <script>
+    var ids = ['company','phone','email','address','markupPct','taxPct','costStore','nextInvoice',
+      'fenceLf','fenceGate','chainLf','chainGate','floorSf','tileSf','carpetSf','paintWallSf','paintCeilSf','paintTrimLf','hourly'];
+    function fill() {
+      var s = HJ.loadShop();
+      ids.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (s.labor && s.labor[id] !== undefined) el.value = s.labor[id];
+        else if (s[id] !== undefined) el.value = s[id];
+      });
+    }
+    function collect() {
+      var s = HJ.loadShop();
+      ['company','phone','email','address','costStore'].forEach(function (id) { s[id] = document.getElementById(id).value; });
+      s.markupPct = parseFloat(document.getElementById('markupPct').value) || 0;
+      s.taxPct = parseFloat(document.getElementById('taxPct').value) || 0;
+      s.nextInvoice = parseInt(document.getElementById('nextInvoice').value, 10) || 1001;
+      ['fenceLf','fenceGate','chainLf','chainGate','floorSf','tileSf','carpetSf','paintWallSf','paintCeilSf','paintTrimLf','hourly'].forEach(function (id) {
+        s.labor[id] = parseFloat(document.getElementById(id).value) || 0;
+      });
+      return s;
+    }
+    document.getElementById('save').addEventListener('click', function () {
+      HJ.saveShop(collect());
+      document.getElementById('saved').textContent = 'Saved ' + new Date().toLocaleTimeString();
+    });
+    fill();
+  </script>
+</body>
+</html>

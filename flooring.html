@@ -12,6 +12,7 @@
     <p>Tile, hardwood, laminate, vinyl/LVP, carpet. Boxes and extras for HD, Lowe’s, or a floor shop.</p>
     <nav>
       <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
       <a href="fence.html">Wood fence</a>
       <a href="chainlink.html">Cyclone fence</a>
       <a class="active" href="flooring.html">Floors</a>
@@ -88,6 +89,7 @@
   </div>
   <script src="prices.js"></script>
   <script src="common.js"></script>
+  <script src="shop.js"></script>
   <script>
     const KEY = 'floorPrices.v1';
     let rooms = [
@@ -176,12 +178,18 @@
           { id: 'glue', name: kind === 'hardwood' ? 'Wood adhesive / nails' : 'Optional glue (if not click)', qty: kind === 'hardwood' ? HJ.ceil(withWaste / 80) : 0, unit: kind === 'hardwood' ? 'tube/box' : 'ea', note: '' }
         ].filter(function (it) { return it.qty > 0; });
       }
-      return { items, notes };
+      const kindName = { lvp: 'LVP', laminate: 'laminate', hardwood: 'hardwood', tile: 'tile', carpet: 'carpet' }[kind] || kind;
+      const rateKey = kind === 'tile' ? 'tileSf' : (kind === 'carpet' ? 'carpetSf' : 'floorSf');
+      const labor = [
+        { name: 'Install ' + kindName, qty: +net.toFixed(1), unit: 'sf', rate: HJ.rate(rateKey) }
+      ];
+      return { items, notes, labor };
     }
 
     function rebuild() {
       const t = takeoff();
       HJ.renderTable(t.items, KEY, t.notes);
+      HJ.setJob({ title: 'Flooring', items: t.items, labor: t.labor, notes: t.notes, priceKey: KEY });
     }
     window.rebuild = rebuild;
 
@@ -196,6 +204,7 @@
     });
     HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('FLOORING — shop quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
+    HJ.mountDocs();
     drawRooms();
     HJ.loadCatalog(rebuild);
   </script>

@@ -12,6 +12,7 @@
     <p>Walls, ceiling, trim — gallons for HD, Lowe’s, or a paint store.</p>
     <nav>
       <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
       <a href="fence.html">Wood fence</a>
       <a href="chainlink.html">Cyclone fence</a>
       <a href="flooring.html">Floors</a>
@@ -88,6 +89,7 @@
   </div>
   <script src="prices.js"></script>
   <script src="common.js"></script>
+  <script src="shop.js"></script>
   <script>
     const KEY = 'paintPrices.v1';
     let rooms = [
@@ -162,12 +164,18 @@
         { id: 'tray', name: 'Tray + liner', qty: 1, unit: 'set', note: '' }
       ].filter(function (it) { return it.qty > 0; });
       const notes = bits.join('; ') + '.\n' + coats + ' coats, ~' + cover + ' sf/gal. Same wall color all rooms.';
-      return { items, notes };
+      const labor = [
+        { name: 'Paint walls', qty: +wall.toFixed(0), unit: 'sf', rate: HJ.rate('paintWallSf') },
+        { name: 'Paint ceiling', qty: +ceil.toFixed(0), unit: 'sf', rate: HJ.rate('paintCeilSf') },
+        { name: 'Paint trim / doors', qty: +trimLf.toFixed(0), unit: 'lf', rate: HJ.rate('paintTrimLf') }
+      ];
+      return { items, notes, labor };
     }
 
     function rebuild() {
       const t = takeoff();
       HJ.renderTable(t.items, KEY, t.notes);
+      HJ.setJob({ title: 'Interior paint', items: t.items, labor: t.labor, notes: t.notes, priceKey: KEY });
     }
     window.rebuild = rebuild;
     HJ.$('addRoom').addEventListener('click', function () {
@@ -181,6 +189,7 @@
     });
     HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('PAINT — store quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
+    HJ.mountDocs();
     drawRooms();
     HJ.loadCatalog(rebuild);
   </script>

@@ -12,6 +12,7 @@
     <p>Posts, top rail, mesh rolls, fittings, gates — HD, Lowe’s, or a fence shop.</p>
     <nav>
       <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
       <a href="fence.html">Wood fence</a>
       <a class="active" href="chainlink.html">Cyclone fence</a>
       <a href="flooring.html">Floors</a>
@@ -114,6 +115,7 @@
   </div>
   <script src="prices.js"></script>
   <script src="common.js"></script>
+  <script src="shop.js"></script>
   <script>
     const KEY = 'chainlinkPrices.v1';
     function takeoff() {
@@ -155,11 +157,16 @@
         { id: 'dgate', name: height + ' ft × ' + dgatew + ' ft double drive gate', qty: dgates, unit: 'ea', note: 'Pair' }
       ].filter(function (it) { return it.qty > 0; });
       const notes = 'Residential cyclone. ' + length + ' lf total, ' + height + ' ft fabric, line posts ' + spacing + ' ft OC.\nMesh run (less gates): ' + run + ' lf. Quote mill/fence-shop equivalents if SKUs differ.';
-      return { items, notes };
+      const labor = [
+        { name: 'Install chain-link fence', qty: run, unit: 'lf', rate: HJ.rate('chainLf') },
+        { name: 'Hang chain-link gate', qty: gates + dgates, unit: 'ea', rate: HJ.rate('chainGate') }
+      ];
+      return { items, notes, labor };
     }
     function rebuild() {
       const t = takeoff();
       HJ.renderTable(t.items, KEY, t.notes);
+      HJ.setJob({ title: 'Cyclone / chain-link fence', items: t.items, labor: t.labor, notes: t.notes, priceKey: KEY });
     }
     window.rebuild = rebuild;
     ['length','height','gauge','spacing','corners','ends','gates','gatew','dgates','dgatew'].forEach(function (id) {
@@ -168,6 +175,7 @@
     });
     HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('CYCLONE FENCE — shop quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
+    HJ.mountDocs();
     HJ.loadCatalog(rebuild);
   </script>
 </body>

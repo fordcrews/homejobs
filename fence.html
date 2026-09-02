@@ -12,6 +12,7 @@
     <p>One takeoff → Home Depot, Lowe’s, lumber mill.</p>
     <nav>
       <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
       <a class="active" href="fence.html">Wood fence</a>
       <a href="chainlink.html">Cyclone fence</a>
       <a href="flooring.html">Floors</a>
@@ -108,6 +109,7 @@
   </div>
   <script src="prices.js"></script>
   <script src="common.js"></script>
+  <script src="shop.js"></script>
   <script>
     const KEY = 'fencePrices.v1';
     function takeoff() {
@@ -148,11 +150,16 @@
         { id: 'screws', name: 'Exterior screws #8 × 2″ (1 lb box ~150)', qty: HJ.ceil(boards * 6 / 150), unit: 'box', note: '~6 per board' }
       ].filter(function (it) { return it.qty > 0; });
       const notes = 'Treated ground-contact posts. Run ' + length + ' lf, ' + height + ' ft high, posts ' + spacing + ' ft OC.\nFence less openings: ' + fenceRun.toFixed(1) + ' lf. Gate openings: ' + gateOpen + ' lf.';
-      return { items, notes };
+      const labor = [
+        { name: 'Install wood fence', qty: +fenceRun.toFixed(1), unit: 'lf', rate: HJ.rate('fenceLf') },
+        { name: 'Hang wood gate', qty: gates + dgates, unit: 'ea', rate: HJ.rate('fenceGate') }
+      ];
+      return { items, notes, labor };
     }
     function rebuild() {
       const t = takeoff();
       HJ.renderTable(t.items, KEY, t.notes);
+      HJ.setJob({ title: 'Wood fence', items: t.items, labor: t.labor, notes: t.notes, priceKey: KEY });
     }
     window.rebuild = rebuild;
     ['length','height','style','spacing','corners','ends','gates','gatew','dgates','dgatew'].forEach(function (id) {
@@ -161,6 +168,7 @@
     });
     HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('WOOD FENCE — mill quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
+    HJ.mountDocs();
     HJ.loadCatalog(rebuild);
   </script>
 </body>

@@ -116,8 +116,33 @@ button.ghost { background: #fff; color: var(--ink); border: 1px solid var(--line
 }
 .room h3 { margin: 0 0 .4rem; font-size: .95rem; display: flex; justify-content: space-between; }
 footer { color: var(--muted); font-size: .8rem; margin: 1.5rem 0; }
+.tabs { display: flex; gap: .35rem; flex-wrap: wrap; margin: 1.25rem 0 .5rem; }
+.tabs button.active { background: #f96302; }
+.doc {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+.doc-head { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-bottom: 3px solid #243447; padding-bottom: .75rem; margin-bottom: 1rem; }
+.doc-head h2 { margin: 0 0 .2rem; font-size: 1.4rem; }
+.doc-meta { font-size: .9rem; color: var(--muted); }
+.doc-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.doc table { margin: .5rem 0; }
+.doc .sum { width: 16rem; margin-left: auto; }
+.doc .sum td { border: 0; padding: .2rem 0; }
+.doc .grand { font-size: 1.15rem; font-weight: 700; }
+.panel { display: none; }
+.panel.show { display: block; }
 @media print {
-  header, .no-print, footer, nav { display: none !important; }
+  header, .no-print, footer, nav, .tabs, #priceAsOf { display: none !important; }
   body { background: #fff; }
   fieldset { break-inside: avoid; }
+  body.print-pull #docsRoot, body.print-quote #list, body.print-invoice #list,
+  body.print-quote #totals, body.print-invoice #totals, body.print-quote #notes, body.print-invoice #notes { display: none !important; }
+  body.print-pull .doc-quote, body.print-pull .doc-invoice { display: none !important; }
+  body.print-quote .doc-pull, body.print-quote .doc-invoice { display: none !important; }
+  body.print-invoice .doc-pull, body.print-invoice .doc-quote { display: none !important; }
+  .doc { border: 0; }
 }
