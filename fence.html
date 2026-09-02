@@ -9,7 +9,7 @@
 <body>
   <header>
     <h1>Wood fence</h1>
-    <p>One takeoff → Home Depot, Lowe’s, lumber mill.</p>
+    <p>One takeoff → Home Depot, Lowe’s, Local 1, Local 2.</p>
     <nav>
       <a href="index.html">Home</a>
       <a class="active" href="fence.html">Wood fence</a>
@@ -82,10 +82,13 @@
       </fieldset>
       <fieldset>
         <legend>Use</legend>
-        <p class="hint" style="color:var(--ink)">Type HD / Lowe’s prices from the shelf. Leave mill blank, print, hand it to the yard.</p>
+        <p class="hint" style="color:var(--ink)">Type HD / Lowe’s from the shelf. Fill Local 1 and Local 2 from yard quotes. Pick which local to compare on Customize.</p>
         <div class="actions">
           <button type="button" onclick="window.print()">Print / PDF</button>
           <button type="button" class="ghost" id="copyBtn">Copy shop list</button>
+          <button type="button" class="ghost" id="exportQuote">Export quote</button>
+          <button type="button" class="ghost" id="importQuote">Import quote</button>
+          <input type="file" id="quoteFile" accept="application/json,.json" hidden>
           <button type="button" class="ghost" id="resetPrices">Clear saved prices</button>
         </div>
       </fieldset>
@@ -96,14 +99,15 @@
         <thead>
           <tr>
             <th>Item</th><th class="num">Qty</th><th>Unit</th>
-            <th class="num col-hd">HD $</th><th class="num col-lw">Lowe’s $</th><th class="num col-ml">Mill $</th>
-            <th class="num">HD</th><th class="num">Lowe’s</th><th class="num">Mill</th>
+            <th class="num col-hd">HD $</th><th class="num col-lw">Lowe’s $</th>
+            <th class="num col-ml" id="th-l1">Local 1 $</th><th class="num col-ml" id="th-l2">Local 2 $</th>
+            <th class="num">HD</th><th class="num">Lowe’s</th><th class="num" id="th-cmp">Local</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
     </div>
-    <h3>Notes for the mill</h3>
+    <h3>Notes for the local shop</h3>
     <div class="notes" id="notes"></div>
     <footer>Hobby takeoff. Treated ground-contact posts. Call 811 before you dig.</footer>
   </div>
@@ -166,8 +170,13 @@
       HJ.$(id).addEventListener('input', rebuild);
       HJ.$(id).addEventListener('change', rebuild);
     });
-    HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('WOOD FENCE — mill quote', t.items, t.notes); });
+    HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('WOOD FENCE — local quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
+    HJ.wireQuoteIO({
+      page: 'fence.html', priceKey: KEY, title: 'Wood fence',
+      inputIds: ['length','height','style','spacing','corners','ends','gates','gatew','dgates','dgatew'],
+      rebuild: rebuild
+    });
     HJ.mountDocs();
     HJ.loadCatalog(rebuild);
   </script>

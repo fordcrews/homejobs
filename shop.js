@@ -12,6 +12,9 @@
       taxPct: 7,
       markupPct: 20,
       costStore: 'best',
+      compareLocal: 'l1',
+      local1Name: 'Local 1',
+      local2Name: 'Local 2',
       nextInvoice: 1001,
       labor: {
         fenceLf: 12,
@@ -53,12 +56,17 @@
 
   function pickUnit(p) {
     var shop = loadShop();
-    var hd = parseFloat(p.hd), lw = parseFloat(p.lw), ml = parseFloat(p.ml);
+    var hd = parseFloat(p.hd), lw = parseFloat(p.lw);
+    var l1 = parseFloat(p.l1 != null && p.l1 !== '' ? p.l1 : p.ml);
+    var l2 = parseFloat(p.l2);
+    var cmp = shop.compareLocal === 'l2' ? l2 : l1;
     var store = shop.costStore || 'best';
+    if (store === 'ml') store = shop.compareLocal === 'l2' ? 'l2' : 'l1';
     if (store === 'hd' && !isNaN(hd)) return hd;
     if (store === 'lw' && !isNaN(lw)) return lw;
-    if (store === 'ml' && !isNaN(ml)) return ml;
-    var filled = [hd, lw, ml].filter(function (x) { return !isNaN(x) && x > 0; });
+    if (store === 'l1' && !isNaN(l1)) return l1;
+    if (store === 'l2' && !isNaN(l2)) return l2;
+    var filled = [hd, lw, cmp].filter(function (x) { return !isNaN(x) && x > 0; });
     if (!filled.length) return 0;
     return Math.min.apply(null, filled);
   }
@@ -208,7 +216,7 @@
       '<div class="actions no-print"><button type="button" data-print="quote">Print quote</button></div></div>' +
       '<div class="panel" id="panel-invoice"><div class="doc doc-invoice"></div>' +
       '<div class="actions no-print"><button type="button" data-print="invoice">Print invoice</button></div></div>' +
-      '<div class="panel" id="panel-pull"><p class="hint no-print">Use the materials table above for HD / Lowe’s / mill. Print that as the purchase list.</p>' +
+      '<div class="panel" id="panel-pull"><p class="hint no-print">Use the materials table above for HD / Lowe’s / local shops. Print that as the purchase list.</p>' +
       '<div class="actions no-print"><button type="button" data-print="pull">Print pull sheet (materials table)</button></div></div>';
     var foot = wrap.querySelector('footer');
     wrap.insertBefore(div, foot || null);
@@ -235,6 +243,8 @@
 
   global.HJ.loadShop = loadShop;
   global.HJ.saveShop = saveShop;
+  global.HJ.loadCustomer = loadCustomer;
+  global.HJ.saveCustomer = saveCustomer;
   global.HJ.rate = rate;
   global.HJ.setJob = setJob;
   global.HJ.mountDocs = mountDocs;

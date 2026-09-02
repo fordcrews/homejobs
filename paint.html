@@ -66,6 +66,9 @@
         <div class="actions">
           <button type="button" onclick="window.print()">Print / PDF</button>
           <button type="button" class="ghost" id="copyBtn">Copy shop list</button>
+          <button type="button" class="ghost" id="exportQuote">Export quote</button>
+          <button type="button" class="ghost" id="importQuote">Import quote</button>
+          <input type="file" id="quoteFile" accept="application/json,.json" hidden>
           <button type="button" class="ghost" id="resetPrices">Clear saved prices</button>
         </div>
       </fieldset>
@@ -76,8 +79,9 @@
         <thead>
           <tr>
             <th>Item</th><th class="num">Qty</th><th>Unit</th>
-            <th class="num col-hd">HD $</th><th class="num col-lw">Lowe’s $</th><th class="num col-ml">Store $</th>
-            <th class="num">HD</th><th class="num">Lowe’s</th><th class="num">Store</th>
+            <th class="num col-hd">HD $</th><th class="num col-lw">Lowe’s $</th>
+            <th class="num col-ml" id="th-l1">Local 1 $</th><th class="num col-ml" id="th-l2">Local 2 $</th>
+            <th class="num">HD</th><th class="num">Lowe’s</th><th class="num" id="th-cmp">Local</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -187,8 +191,15 @@
       HJ.$(id).addEventListener('input', rebuild);
       HJ.$(id).addEventListener('change', rebuild);
     });
-    HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('PAINT — store quote', t.items, t.notes); });
+    HJ.wireCopy('copyBtn', function () { const t = takeoff(); return HJ.millText('PAINT — local quote', t.items, t.notes); });
     HJ.wireReset('resetPrices', KEY, rebuild);
+    HJ.wireQuoteIO({
+      page: 'paint.html', priceKey: KEY, title: 'Paint',
+      inputIds: ['coats','cover','primer','sheen'],
+      getExtra: function () { return { rooms: rooms }; },
+      setExtra: function (x) { if (x && x.rooms) { rooms = x.rooms; drawRooms(); } },
+      rebuild: rebuild
+    });
     HJ.mountDocs();
     drawRooms();
     HJ.loadCatalog(rebuild);

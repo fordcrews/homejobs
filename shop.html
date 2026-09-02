@@ -48,12 +48,28 @@
           <input id="taxPct" type="number" step="0.01" value="7">
         </div>
         <div>
+          <label for="local1Name">Local 1 name</label>
+          <input id="local1Name" placeholder="Local mill">
+        </div>
+        <div>
+          <label for="local2Name">Local 2 name</label>
+          <input id="local2Name" placeholder="Fence shop">
+        </div>
+        <div>
+          <label for="compareLocal">Compare column (vs HD / Lowe’s)</label>
+          <select id="compareLocal">
+            <option value="l1">Local 1</option>
+            <option value="l2">Local 2</option>
+          </select>
+        </div>
+        <div>
           <label for="costStore">Cost from (pull sheet / markup base)</label>
           <select id="costStore">
-            <option value="best">Cheapest of HD / Lowe’s / mill that has a price</option>
+            <option value="best">Cheapest of HD / Lowe’s / selected local</option>
             <option value="hd">Home Depot</option>
             <option value="lw">Lowe’s</option>
-            <option value="ml">Local mill / shop</option>
+            <option value="l1">Local 1</option>
+            <option value="l2">Local 2</option>
           </select>
         </div>
         <div>
@@ -120,7 +136,7 @@
   <script src="common.js"></script>
   <script src="shop.js"></script>
   <script>
-    var ids = ['company','phone','email','address','markupPct','taxPct','costStore','nextInvoice',
+    var ids = ['company','phone','email','address','markupPct','taxPct','costStore','compareLocal','local1Name','local2Name','nextInvoice',
       'fenceLf','fenceGate','chainLf','chainGate','floorSf','tileSf','carpetSf','paintWallSf','paintCeilSf','paintTrimLf','hourly'];
     function fill() {
       var s = HJ.loadShop();
@@ -130,10 +146,12 @@
         if (s.labor && s.labor[id] !== undefined) el.value = s.labor[id];
         else if (s[id] !== undefined) el.value = s[id];
       });
+      var cs = document.getElementById('costStore');
+      if (cs && cs.value === 'ml') cs.value = s.compareLocal === 'l2' ? 'l2' : 'l1';
     }
     function collect() {
       var s = HJ.loadShop();
-      ['company','phone','email','address','costStore'].forEach(function (id) { s[id] = document.getElementById(id).value; });
+      ['company','phone','email','address','costStore','compareLocal','local1Name','local2Name'].forEach(function (id) { s[id] = document.getElementById(id).value; });
       s.markupPct = parseFloat(document.getElementById('markupPct').value) || 0;
       s.taxPct = parseFloat(document.getElementById('taxPct').value) || 0;
       s.nextInvoice = parseInt(document.getElementById('nextInvoice').value, 10) || 1001;
